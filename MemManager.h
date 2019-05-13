@@ -13,6 +13,7 @@ public:
 	MemManager(std::string_view process_name) noexcept;
 	~MemManager();
 	std::uint32_t GetProcessID(std::string_view process_name) const noexcept;
+	bool injectdll(HANDLE hprocess,const char * dllpath);
 private:
 	struct HandleDisposer
 	{
@@ -28,7 +29,6 @@ private:
 	std::unique_ptr<HANDLE, HandleDisposer> m_processHandle;
 
 	using unique_handle = std::unique_ptr<HANDLE, HandleDisposer>;
-
 
 	unique_handle OpenProcessHandle(const std::uint32_t process_id) const noexcept
 	{
