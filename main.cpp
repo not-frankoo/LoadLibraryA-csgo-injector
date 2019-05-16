@@ -2,8 +2,7 @@
 
 int main() {
 
-	MemManager Mem("csgo.exe");
+	Inject("csgo.exe");
 
-	std::getchar();
 	return 0;
 }

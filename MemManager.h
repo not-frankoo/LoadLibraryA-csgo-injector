@@ -4,17 +4,15 @@
 #include <memory>
 #include <string_view>
 
+
+
 #ifndef MemManager_H
 #define MemManager_H
 
-class MemManager
-{
-public:
-	MemManager(std::string_view process_name) noexcept;
-	~MemManager();
-	std::uint32_t GetProcessID(std::string_view process_name) const noexcept;
-	bool injectdll(HANDLE hprocess,const char * dllpath);
-private:
+    void Inject(std::string_view process_name);
+	std::uint32_t GetProcessID(std::string_view process_name);
+	bool injectdll(HANDLE hprocess, std::string_view dllpath);
+
 	struct HandleDisposer
 	{
 		using pointer = HANDLE;
@@ -26,11 +24,11 @@ private:
 			}
 		}
 	};
-	std::unique_ptr<HANDLE, HandleDisposer> m_processHandle;
+    static std::unique_ptr<HANDLE, HandleDisposer> m_processHandle;
 
 	using unique_handle = std::unique_ptr<HANDLE, HandleDisposer>;
 
-	unique_handle OpenProcessHandle(const std::uint32_t process_id) const noexcept
+	static unique_handle OpenProcessHandle(const std::uint32_t process_id)
 	{
 		if (process_id == 0)
 			return nullptr;
@@ -43,6 +41,5 @@ private:
 		return processhandle;
 	}
 
-};
 
 #endif 
