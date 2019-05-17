@@ -35,8 +35,8 @@ bool injectdll(HANDLE hprocess, std::string_view dllpath) {
 	if (!WriteProcessMemory(hprocess, dllpathInTargetMemory, dllpath.data(), dllpath.length(), NULL))
 		return false;
 	
-
-	void* LoadlibraryAddr = (void*)GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA");
+	
+	void* LoadlibraryAddr = reinterpret_cast<void*>(GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA"));
 
 	if (!LoadlibraryAddr)
 		return false;
